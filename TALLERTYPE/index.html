@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Series</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Listado de Series</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Canal</th>
+                <th>Temporadas</th>
+            </tr>
+        </thead>
+        <tbody id="series-table">
+            
+        </tbody>
+    </table>
+
+    
+    <script type="module">
+        import { series } from './Data.js';
+        
+        console.log("Series cargadas:", series);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+          const tableBody = document.getElementById('series-table');
+          let totalTemporadas = 0;
+          
+          series.forEach(serie => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td>${serie.id}</td>
+            <td>
+                <a href="${serie.linkPagina}" target="_blank" rel="noopener noreferrer">
+                ${serie.nombre}
+                </a>
+            </td>
+            <td>${serie.canal}</td>
+            <td>${serie.temporadas}</td>
+            `;
+            tableBody.appendChild(row);
+            totalTemporadas += serie.temporadas;
+          });
+
+          const promedio = totalTemporadas / series.length;
+        const promedioElement = document.createElement('div');
+        promedioElement.innerHTML = `
+            <p font-weight: bold;">
+                Promedio de temporadas: ${promedio.toFixed(2)}
+            </p>
+        `;
+        document.body.appendChild(promedioElement);
+        });
+      </script>
+</body>
+</html>
